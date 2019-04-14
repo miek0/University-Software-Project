@@ -1,0 +1,20 @@
+101,Engineering Building
+102,Engineering Building
+201,Engineering Building
+203,Engineering Building
+301,Science and Technology Building
+302,Science and Technology Building
+303,Science and Technology Building
+304,Science and Technology Building
+210,Arts and Education Building
+340,Arts and Education Building
+540,Arts and Education Building
+130,Design Building
+131,Design Building
+143,Design Building
+144,Design Building
+220,Business and Finance Building
+550,Business and Finance Building
+540,Business and Finance Building
+230,Business and Finance Building
+250,Business and Finance Building

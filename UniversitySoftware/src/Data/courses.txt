@@ -1,0 +1,8 @@
+L/ST 111,Education Specialist,Critical Thinking and Public Education,L/ST 211,3
+L/ST 211,Education Specialist,Theater/Dance/Movement for Inclusive Elementary Classrooms,,3
+CECS 343,Computer Science,Software Engineering and Development,,3
+CECS 277,Computer Science,Object Oriented Programming,CECS 343,3
+CECS 228,Computer Science,Discrete Mathematics,CECS 328,3
+CECS 328,Computer Science,Data Structures and Algorithms,,3
+MUS 120A,Classical Music,Class Piano,MUS 120B,2
+MUS 120B,Classical Music,Class Piano,,2

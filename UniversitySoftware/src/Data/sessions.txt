@@ -1,0 +1,12 @@
+11111,L/ST 111,,1,13:30,15:00,Arts and Education Building,210
+11122,L/ST 111,,3,10:00,11:30,Arts and Education Building,210
+11123,L/ST 111,,3,12:00,13:30,Arts and Education Building,340
+11124,L/ST 111,,1,16:00,18:00,Arts and Education Building,540
+42390,CECS 343,,1,5:30,6:45,Engineering Building,210
+42391,CECS 343,,1,15:30,16:45,Engineering Building,210
+42380,CECS 228,,1,9:00,10:45,Engineering Building,101
+42370,CECS 277,,1,5:30,6:45,Engineering Building,101
+77700,MUS 120A,,1,8:00,10:00,Arts and Education Building,540
+77701,MUS 120A,,2,8:00,10:00,Arts and Education Building,540
+77740,MUS 120B,,3,8:00,9:45,Arts and Education Building,210
+77741,MUS 120B,,3,14:00,15:45,Arts and Education Building,210

@@ -1,0 +1,10 @@
+Computer Science and Engineering,Engineering
+Electrical Engineering,Engineering
+Chemical Engineering,Engineering
+Music,Arts
+Design,Arts
+Dance,Arts
+Theater,Arts
+Marketing,Business
+Finance,Business
+Liberal Studies,Education
