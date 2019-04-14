@@ -19,8 +19,8 @@ public class UniversitySoftware {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-//        StartWin startWin = new StartWin();
-//        startWin.setVisible(true);
+        StartWin startWin = new StartWin();
+        startWin.setVisible(true);
         DBmaker dbMaker = new DBmaker();
         dbMaker.makeDatabase();
 //        DBmanager dBmanager = DBmanager.getInstance();

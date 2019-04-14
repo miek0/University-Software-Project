@@ -6,6 +6,8 @@
 package universitysoftware;
 import java.sql.*;
 import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 /**
  * 
  * @author 018639476
@@ -47,21 +49,35 @@ public class DBmanager {
             return instance;
     }
     
-    public ArrayList<String> getColleges()
+    public DefaultTableModel getColleges(String query)
     {
-        ArrayList<String> collegeNames = new ArrayList<>();
+        DefaultTableModel model = new DefaultTableModel();
         try {
-            String sql = "SELECT collegeName FROM colleges";
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next())
+            ResultSet rs = stmt.executeQuery(query);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int colCount = rsmd.getColumnCount();
+            model.setColumnCount(colCount);
+            
+            //setting labels of model
+            Object[] labels = new Object[colCount];
+            for(int i =0; i<colCount;i++)
+                labels[i] = rsmd.getColumnLabel(i+1);//starts from 1???
+            model.setColumnIdentifiers(labels);
+            
+            //setting rows of model
+            Object[] rowData = new Object[colCount];
+            while(rs.next())//while has next -> add row
             {
-                collegeNames.add(rs.getString("collegeName"));
+                for(int j = 0; j<colCount; j++)
+                    rowData[j] = rs.getObject(j+1);
+                model.addRow(rowData);
             }
-            return collegeNames;
+            return model;
         }
         catch (Exception e) {
             System.out.println("getColleges query failed!");
             return null;
         }
     }
+    
 }
