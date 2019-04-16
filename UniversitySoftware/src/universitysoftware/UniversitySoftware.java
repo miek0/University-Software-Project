@@ -23,10 +23,6 @@ public class UniversitySoftware {
         startWin.setVisible(true);
         DBmaker dbMaker = new DBmaker();
         dbMaker.makeDatabase();
-//        DBmanager dBmanager = DBmanager.getInstance();
-//        ArrayList<String> collegeNames = dBmanager.getColleges();
-//        for(String e: collegeNames)
-//            System.out.println(e);
     }
     
 }

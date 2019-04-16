@@ -49,7 +49,8 @@ public class DBmanager {
             return instance;
     }
     
-    public DefaultTableModel getColleges(String query)
+    /*gets general data for display based on the string query passed to it*/
+    public DefaultTableModel getData(String query)
     {
         DefaultTableModel model = new DefaultTableModel();
         try {
@@ -75,7 +76,7 @@ public class DBmanager {
             return model;
         }
         catch (Exception e) {
-            System.out.println("getColleges query failed!");
+            System.out.println("getData query failed!");
             return null;
         }
     }

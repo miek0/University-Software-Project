@@ -5,20 +5,24 @@
  */
 package UI;
 
-import universitysoftware.DBmaker;
+import javax.swing.JComboBox;
 import universitysoftware.DBmanager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author 018639476
  */
 public class StartWin extends javax.swing.JFrame {
-
+    String[] comboBoxItems = {"none", "colleges", "departments", "majors", "courses", "sessions"};
     /**
      * Creates new form StartWin
      */
     public StartWin() {
         initComponents();
+        jComboBox2.removeAllItems();
+        for(int i = 0; i<comboBoxItems.length; i++)
+            jComboBox2.addItem(comboBoxItems[i]);
     }
 
     /**
@@ -34,6 +38,8 @@ public class StartWin extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,48 +65,97 @@ public class StartWin extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(409, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**for General display of tables*/
     private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
         // TODO add your handling code here:
         DBmanager dbManager = DBmanager.getInstance();
-        if(jComboBox2.getSelectedIndex()==1)
-            jTable1.setModel(dbManager.getColleges("SELECT * FROM colleges"));
-        else if (jComboBox2.getSelectedIndex()==2)
-            jTable1.setModel(dbManager.getColleges("SELECT * FROM departments"));
-        else if (jComboBox2.getSelectedIndex()==3)
-            jTable1.setModel(dbManager.getColleges("SELECT * FROM majors"));
-        else if (jComboBox2.getSelectedIndex()==4)
-            jTable1.setModel(dbManager.getColleges("SELECT * FROM courses"));
-        else if (jComboBox2.getSelectedIndex()==5)
-            jTable1.setModel(dbManager.getColleges("SELECT * FROM sessions"));
+        for(int i =1; i<comboBoxItems.length; i++)
+        {
+            if(jComboBox2.getSelectedItem()==comboBoxItems[i])
+            {
+                DefaultTableModel model = dbManager.getData("SELECT * FROM "+comboBoxItems[i]);
+                jTable1.setModel(model);
+                //populating the other comboBox for more specific display of records
+                if(i>1)
+                {
+                    jLabel2.setText("Display "+comboBoxItems[i]+" only for: ");
+                    model = dbManager.getData("SELECT * FROM "+comboBoxItems[i-1]);
+                    jComboBox1.removeAllItems();
+                    jComboBox1.addItem("none");
+                    for(int j = 0; j<model.getRowCount(); j++)
+                    {
+                        Object item = model.getValueAt(j, 0);
+                        jComboBox1.addItem(item.toString());
+                    }
+                }
+            }
+            //break; //!!!breaks the code!!!
+        }
     }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    /*other combobox to narrow down the displayed data more specifically*/
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        if( jComboBox1.getSelectedIndex()>0 )
+        {
+            String str2 = jComboBox2.getSelectedItem().toString();
+            String str1 = jComboBox1.getSelectedItem().toString();
+            DBmanager dbManager = DBmanager.getInstance();
+            DefaultTableModel model = null;
+            if(jComboBox2.getSelectedIndex()==2)
+                model = dbManager.getData("SELECT * FROM "+str2+" WHERE collegeName = '"+str1+"'");
+            else if(jComboBox2.getSelectedIndex()==3)
+                model = dbManager.getData("SELECT * FROM "+str2+" WHERE departmentName = '"+str1+"'");
+            else if(jComboBox2.getSelectedIndex()==4)
+                model = dbManager.getData("SELECT * FROM "+str2+" WHERE majorName = '"+str1+"'");
+            else if(jComboBox2.getSelectedIndex()==5)
+                model = dbManager.getData("SELECT * FROM "+str2+" WHERE courseName = '"+str1+"'");
+            jTable1.setModel(model);
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,8 +193,10 @@ public class StartWin extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
