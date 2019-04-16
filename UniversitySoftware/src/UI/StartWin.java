@@ -110,7 +110,10 @@ public class StartWin extends javax.swing.JFrame {
 
     /**for General display of tables*/
     private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
-        // TODO add your handling code here:
+        //to prevent query failure due to bad user selection of items in comboboxes
+        if(jComboBox2.getSelectedIndex()==1)
+            jComboBox1.removeAllItems();
+        //populating comboboxes
         DBmanager dbManager = DBmanager.getInstance();
         for(int i =1; i<comboBoxItems.length; i++)
         {
@@ -139,7 +142,7 @@ public class StartWin extends javax.swing.JFrame {
     /*other combobox to narrow down the displayed data more specifically*/
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        if( jComboBox1.getSelectedIndex()>0 )
+        if( jComboBox1.getSelectedIndex()>1 )
         {
             String str2 = jComboBox2.getSelectedItem().toString();
             String str1 = jComboBox1.getSelectedItem().toString();
