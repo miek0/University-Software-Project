@@ -195,7 +195,7 @@ public class StartWin extends javax.swing.JFrame {
     /*other combobox to narrow down the displayed data more specifically*/
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        if( jComboBox1.getSelectedIndex()>1 )
+        if( jComboBox1.getSelectedIndex()>0 )
         {
             String str2 = jComboBox2.getSelectedItem().toString();
             String str1 = jComboBox1.getSelectedItem().toString();

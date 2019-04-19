@@ -42,10 +42,8 @@
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel6" pref="175" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jTextField1" max="32767" attributes="0"/>
-                                      <Component id="jPasswordField1" pref="175" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="jTextField1" max="32767" attributes="0"/>
+                                  <Component id="jPasswordField1" pref="175" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>

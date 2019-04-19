@@ -6,6 +6,8 @@
 package universitysoftware;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -79,6 +81,20 @@ public class DBmanager {
             System.out.println("getData query failed!");
             return null;
         }
+    }
+    
+    public String update(String query)
+    {
+        String message;
+        try {
+            stmt.executeUpdate(query);
+            message = "Database is updated successfully.";
+        } catch (SQLException ex) {
+//            message = "Could not Update database";
+            message = "Error: Uspdate failed! "+ ex.getMessage();
+            Logger.getLogger(DBmanager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return message;
     }
     
 }

@@ -5,17 +5,27 @@
  */
 package UI;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import universitysoftware.DBmanager;
+
 /**
  *
  * @author 018639476
  */
 public class AdminWin extends javax.swing.JFrame {
 
+    String[] comboBoxItems = {"none", "colleges", "departments", "majors", "courses", "sessions"};
+    ArrayList<String> primKeys;
     /**
      * Creates new form AminWin
      */
     public AdminWin() {
         initComponents();
+        primKeys = new ArrayList<>();
+        jComboBox1.removeAllItems();
+        for(int i = 0; i<comboBoxItems.length; i++)
+            jComboBox1.addItem(comboBoxItems[i]);
     }
 
     /**
@@ -27,21 +37,150 @@ public class AdminWin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
+
+        jButton1.setText("Update");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(101, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 874, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(98, 98, 98))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(493, 493, 493)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(314, 314, 314)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void updateView()
+    {
+        DBmanager dbManager = DBmanager.getInstance();
+        for(int i =1; i<comboBoxItems.length; i++)
+        {
+            if(jComboBox1.getSelectedItem()==comboBoxItems[i])
+            {
+                DefaultTableModel model = dbManager.getData("SELECT * FROM "+comboBoxItems[i]);
+                jTable1.setModel(model);
+            }
+            //break; //!!!breaks the code!!!
+        }
+    }
+    
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        /*update table based on combobox selection*/
+        updateView();
+        jLabel1.setText("");
+        //populate primKeys list
+        primKeys.clear();
+        if(jComboBox1.getSelectedIndex()>=1)//at 0 because table is empty->NullPointerException
+        {
+            for(int j = 0; j<jTable1.getRowCount();j++)
+                primKeys.add(jTable1.getValueAt(j, 0).toString());
+        }
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        String message = "";
+        int row = jTable1.getSelectedRow();
+        String[] fields = new String[jTable1.getColumnCount()];
+        System.out.println("col count: "+jTable1.getColumnCount());
+        if(jTable1.getValueAt(row, 0).toString().equals(""))
+        {
+            jLabel1.setText("Error: First field cannot be empty!");
+            return;
+        }
+        for(int i = 0; i<fields.length; i++)
+        {
+            Object fieldVal = jTable1.getValueAt(row, i);
+            if(fieldVal!=null)
+                fields[i] = fieldVal.toString();
+            else
+                fields[i] = "";
+        }
+        
+        if(jComboBox1.getSelectedItem().toString().equals("colleges")){
+            message = DBmanager.getInstance().update("UPDATE colleges SET `collegeName` = '"+fields[0]+"', `dean` = '"+ fields[1]+"' WHERE `collegeName` = '"+primKeys.get(row)+"'");
+            primKeys.set(row, jTable1.getValueAt(row, 0).toString());   
+        }
+        else if(jComboBox1.getSelectedItem().toString().equals("departments")){
+            message = DBmanager.getInstance().update("UPDATE departments SET `departmentName` = '"+fields[0]+"', `collegeName` = '"+ fields[1]+"', `chair` = '"+ fields[2]+"' WHERE `departmentName` = '"+primKeys.get(row)+"'");
+            primKeys.set(row, jTable1.getValueAt(row, 0).toString());   
+        }
+        else if(jComboBox1.getSelectedItem().toString().equals("majors")){
+            message = DBmanager.getInstance().update("UPDATE majors SET `majorName` = '"+fields[0]+"', `departmentName` = '"+ fields[1]+"' WHERE `majorName` = '"+primKeys.get(row)+"'");
+            primKeys.set(row, jTable1.getValueAt(row, 0).toString());   
+        }
+        else if(jComboBox1.getSelectedItem().toString().equals("courses")){
+            message = DBmanager.getInstance().update("UPDATE courses SET `courseName` = '"+fields[0]+"', `majorName` = '"+ fields[1]+"', `description` = '"+ fields[2]+"', `units` = '"+ fields[3]+"', `preReqOf` = '"+ fields[4]+"' WHERE `courseName` = '"+primKeys.get(row)+"'");
+            primKeys.set(row, jTable1.getValueAt(row, 0).toString());   
+        }
+        else if(jComboBox1.getSelectedItem().toString().equals("sessions")){
+            message = DBmanager.getInstance().update("UPDATE sessions SET `sessionNumber` = '"+fields[0]+"', `courseName` = '"+ fields[1]+"', `professorName` = '"+ fields[2]+"', `semester` = '"+ fields[3]+"', `startTime` = '"+ fields[4]+"', `endTime` = '"+ fields[5]+"', `buildingName` = '"+ fields[6]+"', `roomNumber` = '"+ fields[7]+"' WHERE `sessionNumber` = '"+primKeys.get(row)+"'");
+            primKeys.set(row, jTable1.getValueAt(row, 0).toString());   
+        }
+        
+        jLabel1.setText(message);
+        /*updating view*/
+        updateView();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -80,5 +219,10 @@ public class AdminWin extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
