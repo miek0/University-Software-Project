@@ -82,6 +82,11 @@ public class AdminWin extends javax.swing.JFrame {
         });
 
         jButton3.setText("Delete");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         jButton4.setText("New");
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -138,6 +143,7 @@ public class AdminWin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*updates table*/
     private void updateView()
     {
         DBmanager dbManager = DBmanager.getInstance();
@@ -218,13 +224,13 @@ public class AdminWin extends javax.swing.JFrame {
         model.addRow(rowFields);
     }//GEN-LAST:event_jButton4MouseClicked
 
+    /*Add*/
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         jLabel1.setText("");
         int row = jTable1.getRowCount();
-        String query = "";
-        String message = "";
-        String[] fields = new String[jTable1.getColumnCount()];
+        String[] fields = new String[jTable1.getColumnCount()];//fields in a selected row
+        String[] columnNames = new String[jTable1.getColumnCount()];
         if(jTable1.getValueAt(row-1, 0).toString().equals(""))
         {
             jLabel1.setText("Error: First field cannot be empty!");
@@ -232,57 +238,42 @@ public class AdminWin extends javax.swing.JFrame {
         }
         for(int i = 0; i<fields.length; i++)
         {
+            columnNames[i] = jTable1.getColumnName(i);
             Object fieldVal = jTable1.getValueAt(row-1, i);
             if(fieldVal!=null)
                 fields[i] = fieldVal.toString();
             else
                 fields[i] = "";
         }
-        if(jComboBox1.getSelectedItem().toString().equals("colleges"))
-            query = "INSERT INTO colleges (`collegeName`, `dean`) VALUES ('"+fields[0]+"', '"+fields[1]+"')";
-        else if(jComboBox1.getSelectedItem().toString().equals("departments"))
-            query = "INSERT INTO departments (`departmentName`, `collegeName`, `chair`) VALUES ('"+fields[0]+"', '"+fields[1]+"', '"+fields[2]+"')";
-       
+        String q1 = "";
+        String q2 = "";
+        int i = 0;
+        for(i = 0; i<jTable1.getColumnCount()-1; i++)
+        {
+            q1 += jTable1.getColumnName(i)+"`, `";
+            q2 += fields[i]+"', '";
+        }
+        q1+= jTable1.getColumnName(i)+"`";
+        q2 += fields[i]+"'";
+        String query  = "INSERT INTO "+jComboBox1.getSelectedItem().toString() + "(`"+q1+") VALUES ('"+q2+")";
         /*saving the new data into database*/    
-        message = DBmanager.getInstance().update(query);
+        String message = DBmanager.getInstance().update(query);
         jLabel1.setText(message);
     }//GEN-LAST:event_jButton2MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(AdminWin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(AdminWin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(AdminWin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(AdminWin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new AdminWin().setVisible(true);
-//            }
-//        });
-//    }
+    /*Delete*/
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // TODO add your handling code here:
+        String query = "DELETE FROM "+jComboBox1.getSelectedItem().toString()+
+                " WHERE `"+jTable1.getColumnName(0)+"` = '"+jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()+"'";
+        System.out.println(query);
+        String message = DBmanager.getInstance().update(query);
+        updateView();
+        jLabel1.setText(message);
+        
+    }//GEN-LAST:event_jButton3MouseClicked
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
