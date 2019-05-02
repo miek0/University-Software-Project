@@ -3,24 +3,24 @@ package universitysoftware;
 import java.util.ArrayList;
 
 public class Course {
-	protected int id;
+	//protected int id;
 	protected String courseName;
 	protected String descr;
-	protected ArrayList<Course> prereqs;
-	protected ArrayList<Section> sections;
+	protected ArrayList<String> prereqs; //course name attr.
+	protected ArrayList<String> sections;//section name attr.
 	protected String semester;
 	protected char grade;
 
 	public Course() {
-		id = 0;
+		//id = 0;
 		courseName = "empty";
 		descr = "empty";
 		semester = "empty";
 		grade = '0';
 	}
 	
-	public Course(int cid, String cn, String d, ArrayList<Course> pr, ArrayList<Section> sec, String sem, char g) {
-		id = cid;
+	public Course(String cn, String d, ArrayList<String> pr, ArrayList<String> sec, String sem, char g) {
+		//id = cid;
 		courseName = cn;
 		descr = d;
 		prereqs = pr;
@@ -29,8 +29,8 @@ public class Course {
 		grade = g;
 	}
 	
-	public int getID() {return id;}
-	public void setID(int newID) {id = newID;}
+	//public int getID() {return id;}
+	//public void setID(int newID) {id = newID;}
 	public String getCourse() {return courseName;}
 	public void setcourse(String newC) {courseName = newC;}
 	public String getDescr() {return descr;}
@@ -38,7 +38,7 @@ public class Course {
 	public String getSem() {return semester;}
 	public void setSem(String newSem) {semester = newSem;}
 	
-	public void addPrereq(int index, Course c) {
+	public void addPrereq(int index, String c) {
 		if(index >= 0 && index < prereqs.size())
 			prereqs.add(index,c);
 		else
@@ -49,7 +49,7 @@ public class Course {
 		prereqs.remove(index);
 	}
 	
-	public void addSection(int index, Section s) {
+	public void addSection(int index, String s) {
 		if(index >= 0 && index < sections.size())
 			sections.add(index,s);
 		else
