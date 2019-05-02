@@ -1,6 +1,6 @@
 package universitysoftware;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 public class Section {
 	protected int idNum;
@@ -10,7 +10,7 @@ public class Section {
 	protected int profId;
 	protected String startTime;
 	protected String endTime;
-	//protected Map studentGrds;
+	protected ArrayList<Integer> studentIDs;
 	
 	public Section() {
 		idNum = 0;
