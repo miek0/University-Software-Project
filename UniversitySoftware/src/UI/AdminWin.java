@@ -15,7 +15,7 @@ import universitysoftware.DBmanager;
  */
 public class AdminWin extends javax.swing.JFrame {
 
-    String[] comboBoxItems = {"none", "colleges", "departments", "majors", "courses", "sessions"};
+    String[] comboBoxItems = {"none", "colleges", "departments", "majors", "courses", "sessions", "students", "professors"};
     ArrayList<String> primKeys;
     /**
      * Creates new form AminWin
@@ -209,6 +209,10 @@ public class AdminWin extends javax.swing.JFrame {
         }
         else if(jComboBox1.getSelectedItem().toString().equals("sessions")){
             message = DBmanager.getInstance().update("UPDATE sessions SET `sessionNumber` = '"+fields[0]+"', `courseName` = '"+ fields[1]+"', `professorName` = '"+ fields[2]+"', `semester` = '"+ fields[3]+"', `startTime` = '"+ fields[4]+"', `endTime` = '"+ fields[5]+"', `buildingName` = '"+ fields[6]+"', `roomNumber` = '"+ fields[7]+"' WHERE `sessionNumber` = '"+primKeys.get(row)+"'");
+            primKeys.set(row, jTable1.getValueAt(row, 0).toString());   
+        }
+        else if(jComboBox1.getSelectedItem().toString().equals("students")){
+            message = DBmanager.getInstance().update("UPDATE students SET `id` = '"+fields[0]+"', `firstName` = '"+ fields[1]+"', `lastName` = '"+ fields[2]+"', `middleInitial` = '"+ fields[3]+"', `registered` = '"+ fields[4]+"', `paidTuition` = '"+ fields[5]+"' WHERE `id` = '"+primKeys.get(row)+"'");
             primKeys.set(row, jTable1.getValueAt(row, 0).toString());   
         }
         
