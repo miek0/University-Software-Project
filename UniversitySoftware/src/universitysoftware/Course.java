@@ -37,6 +37,7 @@ public class Course {
 	public void setDescr(String newDes) {descr = newDes;}
 	public String getSem() {return semester;}
 	public void setSem(String newSem) {semester = newSem;}
+	public char getGrade() {return grade;}
 	
 	public void addPrereq(int index, String c) {
 		if(index >= 0 && index < prereqs.size())
