@@ -1,8 +1,7 @@
+package universitysoftware;
 import java.util.ArrayList;
 
-import universitysoftware.Course;
-
-public class Professor {
+public class Professor extends Employee{
 	protected ArrayList<Course> courseTaught;
 	
 	public Professor(){
