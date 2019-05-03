@@ -20,7 +20,7 @@ public class DBmanager {
 
     static final String DB_URL = "jdbc:mysql://localhost:3306/university";
     static final String USER = "root";
-    static final String PASS = "";
+    static final String PASS = "pcsqueal";
     private Connection conn = null;
     private Statement stmt = null;
     
@@ -97,4 +97,26 @@ public class DBmanager {
         return message;
     }
     
+    public boolean isStudentValid(String id)
+    {
+        
+        try {
+            ResultSet results = stmt.executeQuery("SELECT * FROM students WHERE id ="+id);
+            if(results.next()){
+               System.out.println("Success"); 
+               if(id.equals(results.getString(1)) && results.getInt(5)>0)
+               {
+                   return true;
+               }
+            }
+            else{
+               System.out.println("Failed"); 
+            }
+            return false;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBmanager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    return false;
+    }
 }
