@@ -64,8 +64,10 @@ public class DBmaker {
                 makeDepartmentsTable(stmt,"src/Data/departments.txt" );
                 makeMajorsTable(stmt,"src/Data/majors.txt");
                 makeCoursesTable(stmt,"src/Data/courses.txt");
+                makeStudentsTable(stmt, "src/Data/students.txt");
+                makeProfessorsTable(stmt, "src/Data/professors.txt");
                 makeSessionsTable(stmt,"src/Data/sessions.txt");
-
+                makeSchedulesTable(stmt, "");
                 conn.close();
             }catch(SQLException se){
                 //Handle errors for JDBC
@@ -195,7 +197,7 @@ public class DBmaker {
             String sql = "CREATE TABLE sessions " +
                    " (sessionNumber INT not NULL, " +
                    " courseName VARCHAR(60) not NULL, FOREIGN KEY (courseName) REFERENCES courses(courseName) On UPDATE CASCADE ON DELETE RESTRICT, " + 
-                   " professorName VARCHAR(60), " +
+                   " professorId INT, FOREIGN KEY (professorId) REFERENCES professors(id) On UPDATE CASCADE ON DELETE RESTRICT," +
                    " semester INT not NULL, " + 
                    " startTime VARCHAR(60) not NULL, " + 
                    " endTime VARCHAR(60) not NULL, " + 
@@ -211,7 +213,7 @@ public class DBmaker {
             while(fin.hasNext())
             {
                 String[] line = fin.nextLine().split(",");
-                sql = "INSERT INTO sessions (`sessionNumber`, `courseName`, `professorName`, `semester`, `startTime`,`endTime`,`buildingName`,`roomNumber`) VALUES ("+line[0]+", '"+line[1]+"', '"+line[2]+"', "+line[3]+", '"+line[4]+"', '"+line[5]+"', '"+line[6]+"', "+line[7]+")";
+                sql = "INSERT INTO sessions (`sessionNumber`, `courseName`, `professorId`, `semester`, `startTime`,`endTime`,`buildingName`,`roomNumber`) VALUES ("+line[0]+", '"+line[1]+"', "+null+", "+line[3]+", '"+line[4]+"', '"+line[5]+"', '"+line[6]+"', "+line[7]+")";
                 stmt.executeUpdate(sql);
             }
         }catch(Exception e)
@@ -246,7 +248,7 @@ public class DBmaker {
         }
     }
 
-        public void makeRoomsTable(Statement stmt, String filePath)
+    public void makeRoomsTable(Statement stmt, String filePath)
     {
         try{
             /*making table*/
@@ -269,6 +271,84 @@ public class DBmaker {
         }catch(Exception e)
         {
             System.out.println("Could not create rooms table");
+            e.printStackTrace();
+        }
+    }
+    
+    public void makeStudentsTable(Statement stmt, String filePath)
+    {
+        try{
+            /*making table*/
+            String sql = "CREATE TABLE students " +
+                   " (id INT not NULL," +
+                   " firstName VARCHAR(60) not NULL, " +
+                   " lastName VARCHAR(60) not NULL, " +
+                   " middleInitial VARCHAR(1) , " +
+                   " registered INT not NULL, " +
+                   " paidTuition INT not NULL, " +
+                   " PRIMARY KEY ( id))";
+
+            stmt.executeUpdate(sql);
+            System.out.println("students table created");
+            /*inserting initial records to the table. MAX = none*/
+            File fileIn = new File(filePath);
+            Scanner fin = new Scanner(fileIn);
+            while(fin.hasNext())
+            {
+                String[] line = fin.nextLine().split(",");
+                sql = "INSERT INTO students (`id`, `firstName`, `lastName`, `middleInitial`, `registered`, `paidTuition` ) VALUES ("+line[0]+", '"+line[1]+"' , '"+line[2]+"', '"+line[3]+"', '"+line[4]+"', '"+line[5]+"')";
+                stmt.executeUpdate(sql);
+            }
+        }catch(Exception e)
+        {
+            System.out.println("Could not create students table");
+            e.printStackTrace();
+        }
+    }
+    
+    public void makeProfessorsTable(Statement stmt, String filePath)
+    {
+        try{
+            /*making table*/
+            String sql = "CREATE TABLE professors " +
+                   " (id INT not NULL, " +
+                   " firstName VARCHAR(60) not NULL, " +
+                   " lastName VARCHAR(60) not NULL, " +
+                   " middleInitial VARCHAR(1) , " +
+                   " PRIMARY KEY ( id))";
+
+            stmt.executeUpdate(sql);
+            System.out.println("professors table created");
+            /*inserting initial records to the table. MAX = none*/
+            File fileIn = new File(filePath);
+            Scanner fin = new Scanner(fileIn);
+            while(fin.hasNext())
+            {
+                String[] line = fin.nextLine().split(",");
+                sql = "INSERT INTO professors (`id`, `firstName`, `lastName`, `middleInitial` ) VALUES ("+line[0]+", '"+line[1]+"' , '"+line[2]+"' , '"+line[3]+"')";
+                stmt.executeUpdate(sql);
+            }
+        }catch(Exception e)
+        {
+            System.out.println("Could not create professors table");
+            e.printStackTrace();
+        }
+    }
+    
+     public void makeSchedulesTable(Statement stmt, String filePath)
+    {
+        try{
+            /*making table*/
+            String sql = "CREATE TABLE schedules " +
+                   " (studentid INT not NULL,FOREIGN KEY (studentId) REFERENCES students(id) On UPDATE CASCADE ON DELETE RESTRICT," +
+                   " sessionId INT not NULL, FOREIGN KEY (sessionId) REFERENCES sessions(sessionNumber) On UPDATE CASCADE ON DELETE RESTRICT," +
+                   " PRIMARY KEY ( studentId, sessionId))";
+
+            stmt.executeUpdate(sql);
+            System.out.println("schedules table created");
+        }catch(Exception e)
+        {
+            System.out.println("Could not create schedules table");
             e.printStackTrace();
         }
     }
