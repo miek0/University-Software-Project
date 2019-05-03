@@ -26,4 +26,6 @@ public class Room {
 	public int getRmCap() {return rmCap;}
 	public void setBLD(String newBLD) { building = newBLD; }
 	public String getBLD() {return building;}
+        
+        public boolean roomFull(){return rmFull;}
 }
