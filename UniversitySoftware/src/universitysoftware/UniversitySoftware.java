@@ -18,11 +18,12 @@ public class UniversitySoftware {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        DBmaker dbMaker = new DBmaker();
+        dbMaker.makeDatabase();
         // TODO code application logic here
         StartWin startWin = new StartWin();
         startWin.setVisible(true);
-        DBmaker dbMaker = new DBmaker();
-        dbMaker.makeDatabase();
+
     }
     
 }

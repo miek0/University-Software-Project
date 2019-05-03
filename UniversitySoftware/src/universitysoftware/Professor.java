@@ -1,9 +1,8 @@
+package universitysoftware;
 import java.util.ArrayList;
 
-import universitysoftware.Course;
-
-public class Professor {
-	protected ArrayList<Course> courseTaught;
+public class Professor extends Employee{
+	private ArrayList<Course> courseTaught;
 	
 	public Professor(){
 		
@@ -15,6 +14,5 @@ public class Professor {
 	
 	void removeCourse(int index) {
 		courseTaught.remove(index);
-	}
-	
+	}	
 }

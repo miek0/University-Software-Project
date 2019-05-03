@@ -1,10 +1,7 @@
+package universitysoftware;
 import java.util.ArrayList;
-import universitysoftware.Course;
 
-public class Student {
-	protected String fName;
-	protected String lName;
-	protected String mName;
+public class Student extends Person{
 	protected int id;
 	protected String rDate;
 	protected boolean tuitionStatus;
@@ -14,30 +11,6 @@ public class Student {
 	
 	public Student() {
 		
-	}
-	
-	void setfName(String name){
-		fName = name;
-	}
-	
-	String getfName() {
-		return fName;
-	}
-	
-	void setlName(String name){
-		fName = name;
-	}
-	
-	String getlName() {
-		return fName;
-	}
-	
-	void setmName(String name){
-		fName = name;
-	}
-	
-	String getmName() {
-		return fName;
 	}
 	
 	void setid(int id){
