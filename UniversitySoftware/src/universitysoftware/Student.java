@@ -5,6 +5,7 @@ public class Student extends Person{
 	protected int id;
 	protected String rDate;
 	protected boolean tuitionStatus;
+        protected boolean isRegistered;
 	protected String major;
 	protected ArrayList<Course>courseList;
 	protected ArrayList<String>grades;
@@ -13,48 +14,48 @@ public class Student extends Person{
 		
 	}
 	
-	void setid(int id){
+	public void setid(int id){
 		this.id = id;
 	}
 	
-	int getid() {
+	public int getid() {
 		return id;
 	}
 	
-	void setrDate(String regis) {
+	public void setrDate(String regis) {
 		rDate = regis;
 	}
 	
-	String getrDate() {
+	public String getrDate() {
 		return rDate;
 	}
 	
-	void settuitionStatus(boolean status) {
+	public void settuitionStatus(boolean status) {
 		tuitionStatus = status;
 	}
 	
-	boolean gettuitionStatus() {
+	public boolean gettuitionStatus() {
 		return tuitionStatus;
 	}
 	
-	void setmajor(String major) {
+	public void setmajor(String major) {
 		this.major = major;
 	}
 	
-	String getmajor() {
+	public String getmajor() {
 		return major;
 	}
 	
-	void addCourse(Course course) {
+	public void addCourse(Course course) {
 		courseList.add(course);		
 	}
 	
-	void removeCourse(int index) {
+	public void removeCourse(int index) {
 		courseList.remove(index);
 	}
 	
 	//Function for retrieving grades from course object
-	String getGrades() {
+	public String getGrades() {
 		String result = "";
 		for(int i = 0; i < courseList.size(); i++) {
 			result = result + courseList.get(i).getCourse();
@@ -63,9 +64,19 @@ public class Student extends Person{
 		
 		return result;
 	}
+        
+        public void setIsRegistered(boolean status)
+        {
+            isRegistered = status;
+        }
+        
+        public boolean isRegistered()
+        {
+            return isRegistered;
+        }
 	
 	//Function for calculating GPA using grades from course object
-	double getGPA() {
+	public double getGPA() {
 		double total = 0;
 		int count = 0;
 		
@@ -89,7 +100,7 @@ public class Student extends Person{
 		return total;
 	}
 	//Function to print all courses and times
-	String printSchedule() {
+	public String printSchedule() {
 		String schedule = "";
 		
 		for(int i = 0; i < courseList.size(); i++) {

@@ -22,7 +22,7 @@ public class DBmaker {
 
    //  Database credentials
    static final String USER = "root";
-   static final String PASS = "pcsqueal";
+   static final String PASS = "";
 
     
     public void makeDatabase()

@@ -4,33 +4,34 @@ import java.util.ArrayList;
 public class Person {
 	private String fName;
 	private String lName;
-	private String mName;
+	private char mName;
 	
 	public Person() {
 
 	}
 	
-	void setfName(String name){
+	public void setfName(String name){
 		fName = name;
 	}
 	
-	String getfName() {
+	public String getfName() {
 		return fName;
 	}
 	
-	void setlName(String name){
-		fName = name;
+	public void setlName(String name){
+		lName = name;
 	}
 	
-	String getlName() {
-		return fName;
+	public String getlName() {
+		return lName;
 	}
 	
-	void setmName(String name){
-		fName = name;
+	public void setmName(String name){
+            if(name!=null)
+		mName = name.charAt(0);
 	}
 	
-	String getmName() {
-		return fName;
+	public char getmName() {
+		return mName;
 	}	
 }

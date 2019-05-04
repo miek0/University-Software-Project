@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package universitysoftware;
+import UI.StudentWin;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -20,7 +21,7 @@ public class DBmanager {
 
     static final String DB_URL = "jdbc:mysql://localhost:3306/university";
     static final String USER = "root";
-    static final String PASS = "pcsqueal";
+    static final String PASS = "";
     private Connection conn = null;
     private Statement stmt = null;
     
@@ -97,7 +98,7 @@ public class DBmanager {
         return message;
     }
     
-    public boolean isStudentValid(String id)
+    public boolean studentLogin(String id)
     {
         
         try {
@@ -106,7 +107,16 @@ public class DBmanager {
                System.out.println("Success"); 
                if(id.equals(results.getString(1)) && results.getInt(5)>0)
                {
-                   return true;
+                    Student student = new Student();
+                    student.setid(Integer.parseInt(results.getString(1)));
+                    student.setfName(results.getString(2));
+                    student.setlName(results.getString(3));
+                    student.setmName(results.getString(4));
+                    student.setIsRegistered(results.getInt(5)>0);
+                    student.settuitionStatus(results.getInt(6)>0);
+                    StudentWin studentWin = new StudentWin(student);
+                    studentWin.setVisible(true);
+                    return true;
                }
             }
             else{

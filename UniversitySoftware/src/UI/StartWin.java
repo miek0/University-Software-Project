@@ -37,8 +37,8 @@ public class StartWin extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<String>();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -50,6 +50,8 @@ public class StartWin extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        studentLoginErrorLable = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,7 +70,7 @@ public class StartWin extends javax.swing.JFrame {
 
         jLabel1.setText("Display All Records for:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None", "Colleges", "Departments", "Majors", "Courses", "Sessions" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Colleges", "Departments", "Majors", "Courses", "Sessions" }));
         jComboBox2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox2ItemStateChanged(evt);
@@ -103,6 +105,8 @@ public class StartWin extends javax.swing.JFrame {
 
         jLabel7.setText("Student ID");
 
+        jLabel8.setText("Student Login");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -128,21 +132,27 @@ public class StartWin extends javax.swing.JFrame {
                                 .addGap(390, 390, 390)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(391, 391, 391)
+                                .addComponent(jLabel8))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(394, 394, 394)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(251, 251, 251)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel7))
-                                .addGap(29, 29, 29)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                                    .addComponent(jTextField2)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(393, 393, 393)
-                                .addComponent(jButton2)))
+                                    .addComponent(studentLoginErrorLable, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(jLabel7))
+                                        .addGap(29, 29, 29)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                            .addComponent(jTextField1)
+                                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                            .addComponent(jTextField2))))))
                         .addContainerGap(372, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -172,12 +182,16 @@ public class StartWin extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80)
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)))
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(studentLoginErrorLable, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
 
@@ -253,19 +267,13 @@ public class StartWin extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
-        /*conditions*/
+        studentLoginErrorLable.setText("");
         String studentId = jTextField2.getText();
         DBmanager dbManager = DBmanager.getInstance();
-//        Integer id = Integer.parseInt(studentId);
-//        System.out.println(id);
-        boolean isValid = dbManager.isStudentValid(studentId);
-        if(isValid)
-        {
-            StudentWin studentWin = new StudentWin();
-            studentWin.setVisible(true);
-        }
-        else
-            System.out.println("Not a valid student id or not registered");
+        boolean isValid = dbManager.studentLogin(studentId);
+        /*printing error message*/
+        if(!isValid)
+            studentLoginErrorLable.setText("Not a valid student id or not registered");
     }//GEN-LAST:event_jButton2MouseClicked
 
     /**
@@ -315,10 +323,12 @@ public class StartWin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel studentLoginErrorLable;
     // End of variables declaration//GEN-END:variables
 }
