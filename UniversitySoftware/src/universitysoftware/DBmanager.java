@@ -129,4 +129,19 @@ public class DBmanager {
         }
     return false;
     }
+    
+    public boolean studentAddCourse(int studentId, int sessionId)
+    {
+        String sql = "INSERT INTO `schedules` (`studentid`, `sessionId`) VALUES ('"+studentId+"', '"+sessionId+"');";
+        try{
+            stmt.executeUpdate(sql);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+        
+    }
+    
 }

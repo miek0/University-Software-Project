@@ -5,8 +5,11 @@
  */
 package UI;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import universitysoftware.DBmanager;
+import universitysoftware.Section;
 import universitysoftware.Student;
 
 /**
@@ -16,6 +19,8 @@ import universitysoftware.Student;
 public class StudentWin extends javax.swing.JFrame {
 
     Student student;
+    ArrayList<Section> sectionList = null;
+    
     /**
      * Creates new form StudentWin
      */
@@ -23,6 +28,13 @@ public class StudentWin extends javax.swing.JFrame {
         initComponents();
         this.student = st;
         jLabel1.setText("Welcom "+student.getfName()+" "+student.getlName()+"!");
+        DBmanager dbManager = DBmanager.getInstance();
+        DefaultTableModel model = null;
+        model = dbManager.getData("SELECT * FROM sessions WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+student.getid()+")");
+        if(model==null || model.getRowCount()==0)
+            System.out.println("Error");
+        else
+            jTable1.setModel(model);
 
     }
 
@@ -85,8 +97,18 @@ public class StudentWin extends javax.swing.JFrame {
         });
 
         jButton2.setText("Add");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jButton3.setText("Drop");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,6 +178,52 @@ public class StudentWin extends javax.swing.JFrame {
         else
             jTable2.setModel(model);
     }//GEN-LAST:event_jButton1MouseClicked
+
+    /*Add Button*/
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        addErrorlabel.setText("");
+        if(jTable2.getSelectedRow()<0)
+            addErrorlabel.setText("Error: Nothing is selected to add!");
+        else
+        {
+            if(student.gettuitionStatus())
+            {
+                String Sessionid = jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString();
+                DBmanager dbManager = DBmanager.getInstance();
+                boolean success = dbManager.studentAddCourse(student.getid(), Integer.parseInt(Sessionid));
+                if(success)
+                {
+                    addErrorlabel.setText("Course successfully added!");
+                    DefaultTableModel model = null;
+                    model = dbManager.getData("SELECT * FROM sessions WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+student.getid()+")");
+                    if(model==null || model.getRowCount()==0)
+                        System.out.println("Error");
+                    else
+                        jTable1.setModel(model);
+                }
+
+            }
+            else
+                addErrorlabel.setText("Error: Tuition Not Paid!");
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    /*Drop*/
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // TODO add your handling code here:
+                String query = "DELETE FROM schedules"+
+                " WHERE `"+"sessionId"+"` = '"+jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()+"'";
+        System.out.println(query);
+        String message = DBmanager.getInstance().update(query);
+        DefaultTableModel model = null;
+        DBmanager dbManager = DBmanager.getInstance();
+        model = dbManager.getData("SELECT * FROM sessions WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+student.getid()+")");
+        if(model==null || model.getRowCount()==0)
+            System.out.println("Error");
+        else
+            jTable1.setModel(model);
+    }//GEN-LAST:event_jButton3MouseClicked
 
     /**
      * @param args the command line arguments
