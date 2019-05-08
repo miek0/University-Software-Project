@@ -10,6 +10,7 @@ public class Course {
 	protected ArrayList<String> sections;//section name attr.
 	protected String semester;
 	protected char grade;
+        protected int units;
 
 	public Course() {
 		//id = 0;
@@ -28,6 +29,16 @@ public class Course {
 		semester = sem;
 		grade = g;
 	}
+        
+        public void setUnits(int units)
+        {
+            this.units = units;
+        }
+        
+        public int getUnits()
+        {
+            return units;
+        }
 	
 	//public int getID() {return id;}
 	//public void setID(int newID) {id = newID;}

@@ -342,6 +342,7 @@ public class DBmaker {
             String sql = "CREATE TABLE schedules " +
                    " (studentid INT not NULL,FOREIGN KEY (studentId) REFERENCES students(id) On UPDATE CASCADE ON DELETE RESTRICT," +
                    " sessionId INT not NULL, FOREIGN KEY (sessionId) REFERENCES sessions(sessionNumber) On UPDATE CASCADE ON DELETE RESTRICT," +
+                   " current INT not NULL,"+
                    " PRIMARY KEY ( studentId, sessionId))";
 
             stmt.executeUpdate(sql);

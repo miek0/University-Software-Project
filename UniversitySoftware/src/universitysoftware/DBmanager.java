@@ -79,7 +79,7 @@ public class DBmanager {
             return model;
         }
         catch (Exception e) {
-            System.out.println("getData query failed!");
+            System.out.println(e.toString());
             return null;
         }
     }
@@ -132,7 +132,7 @@ public class DBmanager {
     
     public boolean studentAddCourse(int studentId, int sessionId)
     {
-        String sql = "INSERT INTO `schedules` (`studentid`, `sessionId`) VALUES ('"+studentId+"', '"+sessionId+"');";
+        String sql = "INSERT INTO `schedules` (`studentid`, `sessionId`, `current`) VALUES ('"+studentId+"', '"+sessionId+"', 1);";
         try{
             stmt.executeUpdate(sql);
             return true;
@@ -142,6 +142,23 @@ public class DBmanager {
             return false;
         }
         
+    }
+    
+    public Course getCourse(int sessionId)
+    {
+        Course course = new Course();
+        String sql = "Select `units` from courses where courseName = (Select `courseName` FROM sessions WHERE sessionNumber ="+sessionId+");";
+        try{
+            ResultSet rst = stmt.executeQuery(sql);
+            if(rst.next())
+                course.setUnits( rst.getInt(1));
+            return course;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return null;
+        }
     }
     
 }
