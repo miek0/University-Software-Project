@@ -250,10 +250,14 @@ public class StartWin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    /*admin login*/
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // hard coded password and username
+        
+        DBmanager dBManager = DBmanager.getInstance();
         String password = new String(jPasswordField1.getPassword());
-        if(jTextField1.getText().equals("admin") && password.equals("admin"))
+        String username = jTextField1.getText();
+        if(username.equals("admin") && password.equals("admin"))
         {
             AdminWin adminWin = new AdminWin();
             adminWin.setVisible(true);
@@ -261,10 +265,23 @@ public class StartWin extends javax.swing.JFrame {
         }
         else
         {
-            jLabel6.setText("Invalid username or password!");
+            if(password.equals(username))
+            {
+                if(dBManager.adminLogin(username))
+                {
+                    AdminWin adminWin = new AdminWin();
+                    adminWin.setVisible(true);
+                    jLabel6.setText("");
+                }
+                else
+                    jLabel6.setText("You do not have admin access!");
+            }
+            else
+                jLabel6.setText("Invalid username or password!");
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
+    /* student login*/
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         studentLoginErrorLable.setText("");

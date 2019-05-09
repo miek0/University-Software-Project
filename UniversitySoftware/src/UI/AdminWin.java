@@ -26,6 +26,7 @@ public class AdminWin extends javax.swing.JFrame {
         jComboBox1.removeAllItems();
         for(int i = 0; i<comboBoxItems.length; i++)
             jComboBox1.addItem(comboBoxItems[i]);
+        setDefaultCloseOperation(AdminWin.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -208,7 +209,7 @@ public class AdminWin extends javax.swing.JFrame {
             primKeys.set(row, jTable1.getValueAt(row, 0).toString());   
         }
         else if(jComboBox1.getSelectedItem().toString().equals("sessions")){
-            message = DBmanager.getInstance().update("UPDATE sessions SET `sessionNumber` = '"+fields[0]+"', `courseName` = '"+ fields[1]+"', `professorName` = '"+ fields[2]+"', `semester` = '"+ fields[3]+"', `startTime` = '"+ fields[4]+"', `endTime` = '"+ fields[5]+"', `buildingName` = '"+ fields[6]+"', `roomNumber` = '"+ fields[7]+"' WHERE `sessionNumber` = '"+primKeys.get(row)+"'");
+            message = DBmanager.getInstance().update("UPDATE sessions SET `sessionNumber` = '"+fields[0]+"', `courseName` = '"+ fields[1]+"', `professorId` = '"+ fields[2]+"', `semester` = '"+ fields[3]+"', `startTime` = '"+ fields[4]+"', `endTime` = '"+ fields[5]+"', `buildingName` = '"+ fields[6]+"', `roomNumber` = '"+ fields[7]+"' WHERE `sessionNumber` = '"+primKeys.get(row)+"'");
             primKeys.set(row, jTable1.getValueAt(row, 0).toString());   
         }
         else if(jComboBox1.getSelectedItem().toString().equals("students")){

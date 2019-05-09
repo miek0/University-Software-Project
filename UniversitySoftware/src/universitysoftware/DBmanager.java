@@ -130,6 +130,24 @@ public class DBmanager {
     return false;
     }
     
+    public boolean adminLogin(String id)
+    {
+//        int id = Integer.parseInt(username);
+        String sql = "SELECT `isAdmin` FROM employees WHERE id = "+id+";";
+        try{
+            ResultSet rst = stmt.executeQuery(sql);
+            if(rst.next())
+                if(rst.getInt(1)==1)
+                    return true;
+            return false;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString());
+        }
+        return false;
+    }
+    
     public boolean studentAddCourse(int studentId, int sessionId)
     {
         String sql = "INSERT INTO `schedules` (`studentid`, `sessionId`, `current`) VALUES ('"+studentId+"', '"+sessionId+"', 1);";
