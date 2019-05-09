@@ -65,7 +65,7 @@ public class DBmaker {
                 makeMajorsTable(stmt,"src/Data/majors.txt");
                 makeCoursesTable(stmt,"src/Data/courses.txt");
                 makeStudentsTable(stmt, "src/Data/students.txt");
-                makeProfessorsTable(stmt, "src/Data/professors.txt");
+                makeEmployeesTable(stmt, "src/Data/employees.txt");
                 makeSessionsTable(stmt,"src/Data/sessions.txt");
                 makeSchedulesTable(stmt, "");
                 conn.close();
@@ -197,7 +197,7 @@ public class DBmaker {
             String sql = "CREATE TABLE sessions " +
                    " (sessionNumber INT not NULL, " +
                    " courseName VARCHAR(60) not NULL, FOREIGN KEY (courseName) REFERENCES courses(courseName) On UPDATE CASCADE ON DELETE RESTRICT, " + 
-                   " professorId INT, FOREIGN KEY (professorId) REFERENCES professors(id) On UPDATE CASCADE ON DELETE RESTRICT," +
+                   " professorId INT, FOREIGN KEY (professorId) REFERENCES employees(id) On UPDATE CASCADE ON DELETE RESTRICT," +
                    " semester INT not NULL, " + 
                    " startTime VARCHAR(60) not NULL, " + 
                    " endTime VARCHAR(60) not NULL, " + 
@@ -306,26 +306,29 @@ public class DBmaker {
         }
     }
     
-    public void makeProfessorsTable(Statement stmt, String filePath)
+    public void makeEmployeesTable(Statement stmt, String filePath)
     {
         try{
             /*making table*/
-            String sql = "CREATE TABLE professors " +
+            String sql = "CREATE TABLE employees " +
                    " (id INT not NULL, " +
                    " firstName VARCHAR(60) not NULL, " +
                    " lastName VARCHAR(60) not NULL, " +
                    " middleInitial VARCHAR(1) , " +
+                   " isProfessor INT not NULL,"+
+                   " isAdmin INT not NULL,"+
+                   " salary DECIMAL,"+
                    " PRIMARY KEY ( id))";
 
             stmt.executeUpdate(sql);
-            System.out.println("professors table created");
+            System.out.println("employees table created");
             /*inserting initial records to the table. MAX = none*/
             File fileIn = new File(filePath);
             Scanner fin = new Scanner(fileIn);
             while(fin.hasNext())
             {
                 String[] line = fin.nextLine().split(",");
-                sql = "INSERT INTO professors (`id`, `firstName`, `lastName`, `middleInitial` ) VALUES ("+line[0]+", '"+line[1]+"' , '"+line[2]+"' , '"+line[3]+"')";
+                sql = "INSERT INTO employees (`id`, `firstName`, `lastName`, `middleInitial`, `isProfessor`, `isAdmin`, `salary` ) VALUES ("+line[0]+", '"+line[1]+"' , '"+line[2]+"' , '"+line[3]+"' , '"+line[4]+"' , '"+line[5]+"' , '"+line[6]+"')";
                 stmt.executeUpdate(sql);
             }
         }catch(Exception e)

@@ -147,11 +147,14 @@ public class DBmanager {
     public Course getCourse(int sessionId)
     {
         Course course = new Course();
-        String sql = "Select `units` from courses where courseName = (Select `courseName` FROM sessions WHERE sessionNumber ="+sessionId+");";
+        String sql = "Select `units`, `courseName` from courses where courseName = (Select `courseName` FROM sessions WHERE sessionNumber ="+sessionId+");";
         try{
             ResultSet rst = stmt.executeQuery(sql);
             if(rst.next())
+            {
                 course.setUnits( rst.getInt(1));
+                course.setcourse(rst.getString(2));//set courseName
+            }
             return course;
         }
         catch(Exception e)
@@ -159,6 +162,39 @@ public class DBmanager {
             System.out.println(e);
             return null;
         }
+    }
+    
+    public boolean checkPrereq(Course course, int studentId)
+    {
+        ArrayList<String> prereqs = new ArrayList<>();
+        ArrayList<String> coursesTaken = new ArrayList<>();
+        String sql1 = "SELECT `courseName` FROM courses WHERE preReqOf = '"+course.getCourse()+"';";
+        String sql2 = "Select `courseName` from courses where courseName IN (Select `courseName` FROM sessions WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+studentId+" AND current = 0));";
+        try{
+            ResultSet rst1 = stmt.executeQuery(sql1);
+            while(rst1.next())
+            {
+                prereqs.add(rst1.getString(1));
+                System.out.println(rst1.getString(1));
+            }
+            
+            ResultSet rst2 = stmt.executeQuery(sql2);
+            while(rst2.next())
+            {
+                coursesTaken.add(rst2.getString(1));
+                System.out.println(rst2.getString(1));
+            }
+            for(String e: prereqs)
+            {
+                if(!coursesTaken.contains(e))
+                    return false;
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString());
+        }
+        return true;
     }
     
 }

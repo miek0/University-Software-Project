@@ -32,10 +32,13 @@ public class StudentWin extends javax.swing.JFrame {
         //display all schedules by default when login
         DBmanager dbManager = DBmanager.getInstance();
             DefaultTableModel model = null;
-            model = dbManager.getData("SELECT `sessionNumber`, sessions.`courseName`, `units`, `majorName`, `semester`, `startTime`, `endTime`, `buildingName`, `roomNumber`, `lastName` FROM sessions INNER JOIN courses ON sessions.courseName = courses.courseName LEFT OUTER JOIN professors ON sessions.professorId=professors.id WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+student.getid()+" )");
+            model = dbManager.getData("SELECT `sessionNumber`, sessions.`courseName`, `units`, `majorName`, `semester`, `startTime`, `endTime`, `buildingName`, `roomNumber`, `lastName` FROM sessions INNER JOIN courses ON sessions.courseName = courses.courseName LEFT OUTER JOIN employees ON sessions.professorId=employees.id WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+student.getid()+" )");
 
             if(model==null || model.getRowCount()==0)
+            {
                 System.out.println("Error");
+                jTable1.setModel(new DefaultTableModel());
+            }
             else
                 jTable1.setModel(model);
 
@@ -45,10 +48,14 @@ public class StudentWin extends javax.swing.JFrame {
     {
         DBmanager dbManager = DBmanager.getInstance();
         DefaultTableModel model = null;
-        model = dbManager.getData("SELECT `sessionNumber`, sessions.`courseName`, `units`, `majorName`, `semester`, `startTime`, `endTime`, `buildingName`, `roomNumber`, `lastName` FROM sessions INNER JOIN courses ON sessions.courseName = courses.courseName LEFT OUTER JOIN professors ON sessions.professorId=professors.id WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+student.getid()+" AND current = 1)");
+        model = dbManager.getData("SELECT `sessionNumber`, sessions.`courseName`, `units`, `majorName`, `semester`, `startTime`, `endTime`, `buildingName`, `roomNumber`, `lastName` FROM sessions INNER JOIN courses ON sessions.courseName = courses.courseName LEFT OUTER JOIN employees ON sessions.professorId=employees.id WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+student.getid()+" AND current = 1)");
        
         if(model==null || model.getRowCount()==0)
+        {
             System.out.println("Error");
+            model = new DefaultTableModel();
+            jTable1.setModel(model);
+        }
         else
             jTable1.setModel(model);
     }
@@ -74,6 +81,8 @@ public class StudentWin extends javax.swing.JFrame {
         addErrorlabel = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         errLabelDrop = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        unitLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -133,6 +142,8 @@ public class StudentWin extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Total Units: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,10 +155,14 @@ public class StudentWin extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(unitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(39, 39, 39)
                         .addComponent(errLabelDrop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
@@ -177,7 +192,11 @@ public class StudentWin extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton3)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(errLabelDrop, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(errLabelDrop, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(unitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,7 +211,7 @@ public class StudentWin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -228,20 +247,27 @@ public class StudentWin extends javax.swing.JFrame {
             addErrorlabel.setText("Error: Nothing is selected to add!");
             else
             {
-                if(student.gettuitionStatus())
+                if(student.gettuitionStatus())//check for yuition paid
                 {
                     String Sessionid = jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString();
                     Course course = dbManager.getCourse(Integer.parseInt(Sessionid));
                     units+=course.getUnits();
+                    boolean prereqChecked = dbManager.checkPrereq(course, student.getid());
                     System.out.println("total units: "+units);
-                    if(units<=20)
+                    if(units<=20)//check for limit on number of units
                     {
-                        boolean success = dbManager.studentAddCourse(student.getid(), Integer.parseInt(Sessionid));
-                        if(success)
+                        if(prereqChecked)//check for prerequisites
                         {
-                            addErrorlabel.setText("Course successfully added!");
-                            updateView();
+                            boolean success = dbManager.studentAddCourse(student.getid(), Integer.parseInt(Sessionid));
+                            if(success)
+                            {
+                                addErrorlabel.setText("Course successfully added!");
+                                updateView();
+                                unitLabel.setText(units+"");
+                            }
                         }
+                        else
+                            addErrorlabel.setText("Invalid action.You do not have prerequisites for this course!");
                     }
                     else
                         addErrorlabel.setText("Invalid action. You cannot add more than 20 units!");
@@ -261,13 +287,18 @@ public class StudentWin extends javax.swing.JFrame {
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
         errLabelDrop.setText("");
-        if(jComboBox1.getSelectedItem().toString().equals("current schedule"))
+        if(jTable1.getSelectedRow()<0)
+            errLabelDrop.setText("Error: Nothing is selected to drop!");
+        int units = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+       if(jComboBox1.getSelectedItem().toString().equals("current schedule"))
         {
             String query = "DELETE FROM schedules"+
                 " WHERE `"+"sessionId"+"` = '"+jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()+"'";
-            System.out.println(query);
+            //System.out.println(query);
             String message = DBmanager.getInstance().update(query);
             updateView();
+            units = Integer.parseInt(unitLabel.getText())-units;
+            unitLabel.setText(units+"");
         }
         else
         {
@@ -280,12 +311,20 @@ public class StudentWin extends javax.swing.JFrame {
         errLabelDrop.setText("");
         addErrorlabel.setText("");
         if(jComboBox1.getSelectedItem().toString().equals("current schedule"))
+        {
             updateView();
+            int units = 0;
+            for(int i = 0; i<jTable1.getRowCount(); i++)
+            {
+                units+= Integer.parseInt(jTable1.getValueAt(i, 2).toString());
+            }
+            unitLabel.setText(units+"");
+        }
         else if(jComboBox1.getSelectedItem().toString().equals("all schedules"))
         {
             DBmanager dbManager = DBmanager.getInstance();
             DefaultTableModel model = null;
-            model = dbManager.getData("SELECT `sessionNumber`, sessions.`courseName`, `units`, `majorName`, `semester`, `startTime`, `endTime`, `buildingName`, `roomNumber`, `lastName` FROM sessions INNER JOIN courses ON sessions.courseName = courses.courseName LEFT OUTER JOIN professors ON sessions.professorId=professors.id WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+student.getid()+" )");
+            model = dbManager.getData("SELECT `sessionNumber`, sessions.`courseName`, `units`, `majorName`, `semester`, `startTime`, `endTime`, `buildingName`, `roomNumber`, `lastName` FROM sessions INNER JOIN courses ON sessions.courseName = courses.courseName LEFT OUTER JOIN employees ON sessions.professorId=employees.id WHERE sessionNumber IN ( SELECT `sessionId` FROM schedules WHERE studentid = "+student.getid()+" )");
 
             if(model==null || model.getRowCount()==0)
                 System.out.println("Error");
@@ -338,10 +377,12 @@ public class StudentWin extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel unitLabel;
     // End of variables declaration//GEN-END:variables
 }

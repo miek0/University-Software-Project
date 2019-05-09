@@ -15,7 +15,7 @@ import universitysoftware.DBmanager;
  */
 public class AdminWin extends javax.swing.JFrame {
 
-    String[] comboBoxItems = {"none", "colleges", "departments", "majors", "courses", "sessions", "students", "professors"};
+    String[] comboBoxItems = {"none", "colleges", "departments", "majors", "courses", "sessions", "students", "employees"};
     ArrayList<String> primKeys;
     /**
      * Creates new form AminWin
