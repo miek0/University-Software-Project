@@ -7,10 +7,7 @@ public class Room {
 	protected String building;		//building number
 	
 	public Room() {
-		rmNum = 0;
-		rmCap = 0;
-		rmFull = false;
-		building = "empty";
+            
 	}
 	
 	public Room(int rn, int rc, String bn) {
