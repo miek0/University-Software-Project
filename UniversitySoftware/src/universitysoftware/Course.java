@@ -13,11 +13,7 @@ public class Course {
         protected int units;
 
 	public Course() {
-		//id = 0;
-		courseName = "empty";
-		descr = "empty";
-		semester = "empty";
-		grade = '0';
+		
 	}
 	
 	public Course(String cn, String d, String pr, ArrayList<String> sec, String sem, char g) {
