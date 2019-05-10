@@ -8,8 +8,7 @@ public class Building {
 	protected ArrayList<Integer> rmList; //room's room number attribute
 	
 	public Building() {
-		//bldNum = 0;
-                bldName = "empty";
+		
 	}
 	
 	public Building(String name, ArrayList<Integer> rlist) {
