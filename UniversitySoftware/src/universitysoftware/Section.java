@@ -13,13 +13,7 @@ public class Section {
 	protected ArrayList<Integer> studentIDs;
 	
 	public Section() {
-		idNum = 0;
-		courseName = "empty";
-                room = 0;
-                building = "empty";
-		profId = 0;
-		startTime = "none";
-		endTime = "none";
+		
 	}
 	
 	public Section(int id, String cn, int r, String b, int pId, String st, String et, ArrayList<Integer> sID) {
